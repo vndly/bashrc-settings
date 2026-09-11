@@ -130,6 +130,17 @@ function timestamp () {
   printf '%s' "$out" | xclip -selection clipboard >/dev/null 2>&1
 }
 
+function update_agents () (
+  set -euo pipefail
+
+  claude update
+  codex update
+  agy update
+
+  echo ""
+  echo "All agents updates."
+)
+
 # =============================== COMMANDS ===============================
 
 alias ..="cd .."
