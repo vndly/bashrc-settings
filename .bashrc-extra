@@ -170,7 +170,6 @@ alias update_bashrc_settings="curl -fsSL https://raw.githubusercontent.com/vndly
 
 export VISUAL=vim
 export EDITOR=vim
-export CLAUDE_CODE_EFFORT_LEVEL=high
 
 export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 export FLUTTER_HOME="/opt/Flutter/bin"
