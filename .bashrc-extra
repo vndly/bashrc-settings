@@ -151,22 +151,22 @@ function update_all () (
     printf '%s Updating...' "$name"
     local output
     if output="$("$@" 2>&1)"; then
-      printf '\r\033[K%s: OK\n' "$name"
+      printf '\r\033[K%s \033[32mOK\033[0m\n' "$name"
     else
-      printf '\r\033[K%s: FAILED\n' "$name"
-      [ -n "$output" ] && printf '%s\n' "$output" >&2
+      printf '\r\033[K%s \033[31mFAILED\033[0m\n' "$name"
+      [ -n "$output" ] && printf '\033[31m%s\033[0m\n' "$output" >&2
       failed=1
     fi
   }
 
-  _run_update "Claude:     " update_claude
-  _run_update "Codex:      " update_codex
-  _run_update "Agy:        " update_agy
+  _run_update "Claude:    " update_claude
+  _run_update "Codex:     " update_codex
+  _run_update "Agy:       " update_agy
 
-  _run_update "npm:        " update_npm
-  _run_update "nvm:        " update_nvm
-  _run_update "Firebase:   " update_firebase
-  _run_update "Flutter:    " update_flutter
+  _run_update "npm:       " update_npm
+  _run_update "nvm:       " update_nvm
+  _run_update "Firebase:  " update_firebase
+  _run_update "Flutter:   " update_flutter
 
   return "$failed"
 )
