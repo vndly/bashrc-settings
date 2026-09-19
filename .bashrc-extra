@@ -148,7 +148,7 @@ function update_all () (
   _run_update () {
     local name="$1"
     shift
-    printf '%s Updating...' "$name"
+    printf '%s \033[33mUpdating...\033[0m' "$name"
     local output
     if output="$("$@" 2>&1)"; then
       printf '\r\033[K%s \033[32mOK\033[0m\n' "$name"
@@ -159,14 +159,14 @@ function update_all () (
     fi
   }
 
-  _run_update "Claude:    " update_claude
-  _run_update "Codex:     " update_codex
-  _run_update "Agy:       " update_agy
+  _run_update "Claude:   " update_claude
+  _run_update "Codex:    " update_codex
+  _run_update "Agy:      " update_agy
 
-  _run_update "npm:       " update_npm
-  _run_update "nvm:       " update_nvm
-  _run_update "Firebase:  " update_firebase
-  _run_update "Flutter:   " update_flutter
+  _run_update "npm:      " update_npm
+  _run_update "nvm:      " update_nvm
+  _run_update "Firebase: " update_firebase
+  _run_update "Flutter:  " update_flutter
 
   return "$failed"
 )
