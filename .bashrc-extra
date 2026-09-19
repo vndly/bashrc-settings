@@ -141,6 +141,36 @@ function update_agents () (
   echo "All agents updates."
 )
 
+function update_all () (
+  set -o pipefail
+  local failed=0
+
+  _run_update () {
+    local name="$1"
+    shift
+    printf '%s Updating...' "$name"
+    local output
+    if output="$("$@" 2>&1)"; then
+      printf '\r\033[K%s: OK\n' "$name"
+    else
+      printf '\r\033[K%s: FAILED\n' "$name"
+      [ -n "$output" ] && printf '%s\n' "$output" >&2
+      failed=1
+    fi
+  }
+
+  _run_update "Claude:     " update_claude
+  _run_update "Codex:      " update_codex
+  _run_update "Agy:        " update_agy
+
+  _run_update "npm:        " update_npm
+  _run_update "nvm:        " update_nvm
+  _run_update "Firebase:   " update_firebase
+  _run_update "Flutter:    " update_flutter
+
+  return "$failed"
+)
+
 # =============================== COMMANDS ===============================
 
 alias ..="cd .."
@@ -151,20 +181,47 @@ alias flutter_clean_pub_cache="dart pub cache gc"
 
 # ============================== UPDATERS ================================
 
-alias update_claude="claude update"
-alias update_codex="codex update"
-alias update_agy="agy update"
+function update_claude () {
+  claude update "$@"
+}
 
-alias update_firebase="npm install -g firebase-tools@latest"
-alias update_npm="npm install -g npm@latest"
-alias update_flutter="flutter upgrade --force"
+function update_codex () {
+  codex update "$@"
+}
+
+function update_agy () {
+  agy update "$@"
+}
+
+function update_firebase () {
+  npm install -g firebase-tools@latest "$@"
+}
+
+function update_npm () {
+  npm install -g npm@latest "$@"
+}
+
+function update_flutter () {
+  flutter upgrade --force "$@"
+}
 
 # PROFILE=/dev/null stops the installer appending its own nvm block to ~/.bashrc:
 # it only looks there, so it can't see the copy this file already has.
-alias update_nvm="curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | PROFILE=/dev/null bash"
-alias update_ai_settings="curl -fsSL https://raw.githubusercontent.com/vndly/ai-settings/main/install.sh | bash"
-alias update_vscode_settings="curl -fsSL https://raw.githubusercontent.com/vndly/vscode-settings/main/install.sh | bash"
-alias update_bashrc_settings="curl -fsSL https://raw.githubusercontent.com/vndly/bashrc-settings/main/install.sh | bash"
+function update_nvm () {
+  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | PROFILE=/dev/null bash
+}
+
+function update_ai_settings () {
+  curl -fsSL https://raw.githubusercontent.com/vndly/ai-settings/main/install.sh | bash
+}
+
+function update_vscode_settings () {
+  curl -fsSL https://raw.githubusercontent.com/vndly/vscode-settings/main/install.sh | bash
+}
+
+function update_bashrc_settings () {
+  curl -fsSL https://raw.githubusercontent.com/vndly/bashrc-settings/main/install.sh | bash
+}
 
 # =============================== EXPORTS ================================
 
