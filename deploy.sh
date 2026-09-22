@@ -31,10 +31,9 @@ check_sourced() {
 
 # --- Preview (read-only) ----------------------------------------------------
 
-echo "Previewing changes against $TARGET"
-echo
-
 if [ ! -e "$TARGET" ]; then
+    echo "Previewing changes against $TARGET"
+    echo
     echo "NEW:       .bashrc-extra (target does not exist, will be created)"
 else
     # --numstat prints nothing when the files are identical. It exits 1 when
@@ -44,11 +43,13 @@ else
     # Nothing to write, so skip the confirmation entirely: the prompt should
     # only ever appear when something is actually about to change.
     if [ -z "$numstat" ]; then
-        echo "Already up to date. Nothing to do."
+        echo "Already up to date."
         check_sourced
         exit 0
     fi
 
+    echo "Previewing changes against $TARGET"
+    echo
     echo "changed:   .bashrc-extra"
     git diff --no-index --color=auto -- "$TARGET" "$SOURCE" || true
 fi
